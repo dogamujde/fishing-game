@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bvjqeek4p6tj8"]
+
+[ext_resource type="Script" uid="uid://wm7dogyum0bu" path="res://scripts/fishing_spot.gd" id="1_3hc2x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yey6y"]
+radius = 48.0
+
+[node name="FishingSpot" type="Area2D" unique_id=2101869587]
+script = ExtResource("1_3hc2x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1895716268]
+shape = SubResource("CircleShape2D_yey6y")
