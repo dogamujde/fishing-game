@@ -1,3 +1,130 @@
 [gd_scene format=3 uid="uid://c6t81t7gjktaa"]
 
+[ext_resource type="Script" uid="uid://cploci1w2mfq7" path="res://scripts/fishing_mini_game.gd" id="1_bxwdx"]
+[ext_resource type="Texture2D" uid="uid://bf3mmiwhlueir" path="res://assets/fish_minigame/fishicon.png" id="2_d85yt"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j1a6q"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 55.0
+initial_velocity_min = 35.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 98, 0)
+hue_variation_min = -0.29000002
+hue_variation_max = 0.26999998
+
 [node name="FishingMiniGame" type="CanvasLayer" unique_id=410411783]
+script = ExtResource("1_bxwdx")
+
+[node name="Control" type="Control" parent="." unique_id=1322134923]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1367832642]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.050980393, 0.33333334, 1, 1)
+
+[node name="CatchArea" type="Control" parent="Control" unique_id=1013513032]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BarTrack" type="ColorRect" parent="Control/CatchArea" unique_id=1702775910]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -60.0
+offset_right = 15.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.5294118, 0.24705882, 1)
+
+[node name="ColorRect" type="ColorRect" parent="Control/CatchArea" unique_id=865343398]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = 36.0
+offset_right = 10.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14901961, 1, 0.20784314, 1)
+
+[node name="FishIcon" type="TextureRect" parent="Control/CatchArea" unique_id=1729890298]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.5
+offset_top = -10.0
+offset_right = 12.5
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_d85yt")
+expand_mode = 1
+
+[node name="Progress" type="ProgressBar" parent="Control/CatchArea" unique_id=1729727437]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 80.0
+offset_right = 156.0
+offset_bottom = 90.0
+rotation = -1.5707964
+show_percentage = false
+
+[node name="LabelFishName" type="Label" parent="Control" unique_id=377854372]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SFXH" type="AudioStreamPlayer" parent="Control" unique_id=1719468083]
+
+[node name="SFXC" type="AudioStreamPlayer" parent="Control" unique_id=1800037586]
+
+[node name="SFXF" type="AudioStreamPlayer" parent="Control" unique_id=374545185]
+
+[node name="ParticleBurst" type="GPUParticles2D" parent="Control" unique_id=195695647]
+position = Vector2(160, 27)
+emitting = false
+amount = 100
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_j1a6q")
