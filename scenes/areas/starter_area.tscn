@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cwshksu133a5d"]
+
+[ext_resource type="TileSet" uid="uid://s3cbn5fmkpq5" path="res://assets/tiles/placeholder_tileset.tres" id="1_4t0k6"]
+
+[node name="StarterArea" type="Node2D" unique_id=843250833]
+
+[node name="Ground" type="TileMapLayer" parent="." unique_id=694675272]
+tile_set = ExtResource("1_4t0k6")
+
+[node name="Water" type="TileMapLayer" parent="." unique_id=793391465]
+tile_set = ExtResource("1_4t0k6")
+
+[node name="Obstacles" type="TileMapLayer" parent="." unique_id=893532963]
+tile_set = ExtResource("1_4t0k6")
