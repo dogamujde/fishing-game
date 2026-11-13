@@ -1,9 +1,11 @@
 [gd_scene format=4 uid="uid://cwshksu133a5d"]
 
 [ext_resource type="TileSet" uid="uid://s3cbn5fmkpq5" path="res://assets/tiles/placeholder_tileset.tres" id="1_4t0k6"]
+[ext_resource type="Script" uid="uid://ckusmhy0sq8km" path="res://scenes/areas/area.gd" id="1_06l2f"]
 [ext_resource type="PackedScene" uid="uid://bvjqeek4p6tj8" path="res://scenes/fishing_spot.tscn" id="2_06l2f"]
 
 [node name="StarterArea" type="Node2D" unique_id=843250833]
+script = ExtResource("1_06l2f")
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=694675272]
 position = Vector2(1, 2)
