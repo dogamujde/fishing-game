@@ -1,24 +1,13 @@
 [gd_scene format=3 uid="uid://8btg4gal3xkg"]
 
 [ext_resource type="PackedScene" uid="uid://qa3f1bcvhocq" path="res://scenes/player.tscn" id="1_0wfyh"]
-[ext_resource type="Texture2D" uid="uid://6is3wffdvwbx" path="res://icon.svg" id="2_sugp2"]
-[ext_resource type="PackedScene" uid="uid://bvjqeek4p6tj8" path="res://scenes/fishing_spot.tscn" id="3_sugp2"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yey6y"]
-size = Vector2(32, 300)
+[ext_resource type="Script" uid="uid://cw4meb3p1hyjy" path="res://scripts/main.gd" id="1_sugp2"]
+[ext_resource type="PackedScene" uid="uid://cwshksu133a5d" path="res://scenes/areas/starter_area.tscn" id="2_0wfyh"]
 
 [node name="Main" type="Node2D" unique_id=1410739827]
+script = ExtResource("1_sugp2")
+
+[node name="StarterArea" parent="." unique_id=843250833 instance=ExtResource("2_0wfyh")]
 
 [node name="Player" parent="." unique_id=701080228 instance=ExtResource("1_0wfyh")]
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1958885117]
-position = Vector2(300, 0)
-texture = ExtResource("2_sugp2")
-
-[node name="Wall" type="StaticBody2D" parent="." unique_id=1342166774]
-position = Vector2(150, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall" unique_id=1253318198]
-shape = SubResource("RectangleShape2D_yey6y")
-
-[node name="FishingSpot" parent="." unique_id=2101869587 instance=ExtResource("3_sugp2")]
+position = Vector2(328, 0)
