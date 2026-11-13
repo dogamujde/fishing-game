@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://8btg4gal3xkg"]
 
 [ext_resource type="PackedScene" uid="uid://qa3f1bcvhocq" path="res://scenes/player.tscn" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://cw4meb3p1hyjy" path="res://scripts/main.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://cwshksu133a5d" path="res://scenes/areas/starter_area.tscn" id="2_0wfyh"]
 
 [node name="Main" type="Node2D" unique_id=1410739827]
+script = ExtResource("1_sugp2")
 
 [node name="StarterArea" parent="." unique_id=843250833 instance=ExtResource("2_0wfyh")]
 
 [node name="Player" parent="." unique_id=701080228 instance=ExtResource("1_0wfyh")]
-position = Vector2(328, 136)
+position = Vector2(328, 0)
