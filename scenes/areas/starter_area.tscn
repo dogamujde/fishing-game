@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://cwshksu133a5d"]
 
 [ext_resource type="TileSet" uid="uid://s3cbn5fmkpq5" path="res://assets/tiles/placeholder_tileset.tres" id="1_4t0k6"]
+[ext_resource type="PackedScene" uid="uid://bvjqeek4p6tj8" path="res://scenes/fishing_spot.tscn" id="2_06l2f"]
 
 [node name="StarterArea" type="Node2D" unique_id=843250833]
 
@@ -14,3 +15,15 @@ tile_set = ExtResource("1_4t0k6")
 
 [node name="Obstacles" type="TileMapLayer" parent="." unique_id=893532963]
 tile_set = ExtResource("1_4t0k6")
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1519973289]
+position = Vector2(328, 136)
+
+[node name="FishingSpot" parent="." unique_id=2101869587 instance=ExtResource("2_06l2f")]
+position = Vector2(328, 344)
+
+[node name="FishingSpot2" parent="." unique_id=472874168 instance=ExtResource("2_06l2f")]
+position = Vector2(120, 288)
+
+[node name="FishingSpot3" parent="." unique_id=1180541985 instance=ExtResource("2_06l2f")]
+position = Vector2(536, 288)
