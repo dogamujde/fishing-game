@@ -18,7 +18,8 @@ func _ready() -> void:  # runs once when the game starts
 			child.fishing_requested.connect(_on_fishing_requested)  # run our function when E is pressed there
 	GameState.xp_changed.connect(_on_xp_changed)  # print XP whenever it changes
 	GameState.leveled_up.connect(_on_leveled_up)  # print when the player levels up
-
+	
+	TextBox.show_message("Welcome! Walk with WASD or the arrow keys, and press E by the water to fish. Press E to close this box.")  # first tip when the game starts
 
 func _on_fishing_requested(_spot: FishingSpot) -> void:  # runs when the player presses E at a spot
 	GameState.add_xp(40)  # temporary placeholder test XP until Joseph's minigame is hooked up
