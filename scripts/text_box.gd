@@ -42,7 +42,7 @@ func _show_next() -> void:  # shows the next message, or closes the box when non
 	get_tree().paused = true 
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("interact"): 
 		get_viewport().set_input_as_handled()
 		_show_next()  

@@ -22,7 +22,7 @@ func _ready() -> void:  # runs once when the game starts
 	TextBox.show_message("Walk around with WASD or the arrow keys.")  # how to move
 	TextBox.show_message("When you're next to the water, press E to fish.")  # how to fish
 	TextBox.show_message("Every fish you catch gives you XP. Get enough XP and you'll level up!")  # how XP works
-
+	
 
 func _on_fishing_requested(_spot: FishingSpot) -> void:  # runs when the player presses E at a spot
 	GameState.add_xp(40)  # temporary placeholder test XP until Joseph's minigame is hooked up
@@ -34,3 +34,4 @@ func _on_xp_changed(current_xp: int, needed_xp: int) -> void:  # runs whenever X
 
 func _on_leveled_up(new_level: int) -> void:  # runs when the player levels up
 	print("Level up! You are now level ", new_level)
+	TextBox.show_message("You reached level " + str(new_level) + "!")  # tell the player in the text box
