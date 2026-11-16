@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b1sk3f7revip3"]
+
+[ext_resource type="Script" uid="uid://cbpxv73aggqt5" path="res://scripts/accessibility_menu.gd" id="1_cmrc3"]
+
+[node name="AccessibilityMenu" type="CanvasLayer" unique_id=709496639]
+script = ExtResource("1_cmrc3")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1462602571]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1721575699]
+layout_mode = 2
