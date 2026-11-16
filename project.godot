@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameState="*uid://dn6hdp5hyva6b"
 TextBox="*uid://3gd7nmdhyq8f"
+AccessibilityMenu="*uid://b1sk3f7revip3"
 
 [display]
 
