@@ -154,8 +154,8 @@ func _success():
 	_punch_ui(root_ui, 1.12, 0.18)
 	
 	await get_tree().create_timer(0.25).timeout
-	emit_signal("fishing_finished", true, fish)
-
+	emit_signal("fishing_finished", true, fish, fish.xp)
+	
 func _on_hook():
 	_state = STATE.PLAY
 	_progress_val = 20.0

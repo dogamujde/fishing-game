@@ -13,3 +13,5 @@ class_name FishType
 
 enum MovePattern { SMOOTH, DARTY, SINK_RISE, CHAOTIC }
 @export var pattern: MovePattern = MovePattern.SMOOTH
+
+@export var xp: int = 40  # XP the player gets for catching this fish

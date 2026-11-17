@@ -3,6 +3,7 @@ extends Area2D
 
 # joseph's minigame connects to this, it says which spot the player is fishing at
 signal fishing_requested(spot: FishingSpot)
+signal fishing_done(success: bool, fish: FishType, xp: int)  # sent after the minigame closes
 
 const MINIGAME := preload("res://scenes/FishingMiniGame.tscn")
 # the player standing in this spot, null if nobody is here
@@ -55,7 +56,6 @@ func finish_fishing() -> void:
 	# if the player is still standing here go straight to the fish bubble
 	state = MarkerState.NEAR if player_inside else MarkerState.FAR
 
->>>>>>> main
 func _on_body_entered(body: Node2D) -> void:
 	# only care about the player, walls and fish shouldnt trigger fishing
 	if body is Player:
@@ -89,3 +89,5 @@ func _on_fishing_finished(success: bool, fish: FishType, value: int, game: Node,
 	print("caught: ", success, " ", fish.fish_name if fish else "")
 	game.queue_free()
 	player.can_move = true
+	finish_fishing()  # hides the bubble until the spot respawns
+	fishing_done.emit(success, fish, value)
