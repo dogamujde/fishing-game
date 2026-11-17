@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://3gd7nmdhyq8f"]
+
+[ext_resource type="Script" uid="uid://bq3a1uhjia1wo" path="res://scripts/text_box.gd" id="1_btfno"]
+
+[node name="TextBox" type="CanvasLayer" unique_id=1276981360]
+script = ExtResource("1_btfno")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=558402356]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="PanelContainer" unique_id=363148172]
+layout_mode = 2

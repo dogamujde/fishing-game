@@ -1,0 +1,2 @@
+# Normalize line endings so Git matches how Godot saves files
+* text=auto eol=lf
