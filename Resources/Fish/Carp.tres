@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FishType" format=3 uid="uid://crdoovg6uoqqj"]
+
+[ext_resource type="Script" uid="uid://so1o0wyu7fie" path="res://scripts/FishType.gd" id="1_s3blb"]
+
+[resource]
+script = ExtResource("1_s3blb")
+tint = Color(1, 1, 1, 1)
+pattern = 3
+metadata/_custom_type_script = "uid://so1o0wyu7fie"

@@ -3,7 +3,9 @@ extends Area2D
 
 # joseph's minigame connects to this, it says which spot the player is fishing at
 signal fishing_requested(spot: FishingSpot)
+signal fishing_done(success: bool, fish: FishType, xp: int)  # sent after the minigame closes
 
+const MINIGAME := preload("res://scenes/FishingMiniGame.tscn")
 # the player standing in this spot, null if nobody is here
 var player_inside: Player = null
 
@@ -24,6 +26,7 @@ var anim_time: float = 0.0
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
+	fishing_requested.connect(_start_fishing)
 	marker_base_y = marker.position.y
 
 func _process(delta: float) -> void:
@@ -74,3 +77,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		anim_time = 0.0
 		print("fishing requested at ", name)
 		fishing_requested.emit(self)
+
+func _start_fishing(_spot: FishingSpot) -> void:
+	var player := player_inside   # keep a reference in case they leave the area mid-game
+	player.can_move = false
+	var game := MINIGAME.instantiate()
+	add_child(game)
+	game.fishing_finished.connect(_on_fishing_finished.bind(game, player))
+
+func _on_fishing_finished(success: bool, fish: FishType, value: int, game: Node, player: Player) -> void:
+	print("caught: ", success, " ", fish.fish_name if fish else "")
+	game.queue_free()
+	player.can_move = true
+	finish_fishing()  # hides the bubble until the spot respawns
+	fishing_done.emit(success, fish, value)
