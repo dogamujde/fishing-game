@@ -1,6 +1,8 @@
 extends Node2D
 ## Runs the game world: puts the player into the current area.
 
+const FISH_XP: int = 40  # placeholder XP per catch
+
 @onready var player: Player = $Player  # the player variable
 @onready var area: Node2D = $StarterArea  
 
@@ -24,8 +26,12 @@ func _ready() -> void:  # runs once when the game starts
 	TextBox.show_message("Every fish you catch gives you XP. Get enough XP and you'll level up!")  # how XP works
 	
 
-func _on_fishing_requested(_spot: FishingSpot) -> void:  # runs when the player presses E at a spot
-	GameState.add_xp(40)  # temporary placeholder test XP until Joseph's minigame is hooked up
+func _on_fishing_requested(spot: FishingSpot) -> void:  # runs when the player presses E at a spot
+	await get_tree().create_timer(2.0).timeout  # placeholder wait so the "..." bubble shows, replace with the minigame ending
+	spot.finish_fishing()  # hides the marker, this spot is done
+	# XP is given when fishing ends so the catch message and any level up show together
+	TextBox.show_message("You caught a fish! +" + str(FISH_XP) + " XP")
+	GameState.add_xp(FISH_XP)  # temporary placeholder XP until Joseph's minigame is hooked up
 
 
 func _on_xp_changed(current_xp: int, needed_xp: int) -> void:  # runs whenever XP changes
