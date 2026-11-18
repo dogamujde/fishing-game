@@ -13,6 +13,11 @@ extends CharacterBody2D
 @export var attack_damage: int = 1
 @export var attack_cooldown: float = 0.3
 
+
+# joseph can use hits_taken for the no hit bonus
+signal got_hit(total_hits: int)
+var hits_taken: int = 0
+
 # turned off while fishing so the player cant walk away mid cast
 var can_move: bool = true
 
@@ -80,3 +85,14 @@ func _attack() -> void:
 	for body in attack_hitbox.get_overlapping_bodies():
 		if body != self and body.has_method("take_hit"):
 			body.take_hit(attack_damage)
+			
+
+# davids fish calls this when it hits the player
+func take_damage() -> void:
+	# dodging means the fish missed
+	if is_invincible:
+		print("dodged!")
+		return
+	hits_taken += 1
+	print("player got hit, total hits: ", hits_taken)
+	got_hit.emit(hits_taken)

@@ -6,6 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yey6y"]
 size = Vector2(32, 32)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_yey6y"]
+radius = 24.0
+
 [node name="DummyFish" type="StaticBody2D" unique_id=994859185]
 script = ExtResource("1_5mji2")
 
@@ -16,3 +19,8 @@ texture = ExtResource("1_f1cd6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1272037577]
 shape = SubResource("RectangleShape2D_yey6y")
+
+[node name="TouchArea" type="Area2D" parent="." unique_id=641296121]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TouchArea" unique_id=1967550400]
+shape = SubResource("CircleShape2D_yey6y")
