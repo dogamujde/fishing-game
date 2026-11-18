@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b8ydnf2kynpxj"]
 
-[ext_resource type="PackedScene" uid="uid://qa3f1bcvhocq" path="res://scenes/player.tscn" id="1_p73au"]
+[ext_resource type="PackedScene" uid="uid://qa3f1bcvhocq" path="res://scenes/player.tscn" id="1_cjqw6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yey6y"]
 size = Vector2(480, 16)
@@ -42,4 +42,5 @@ shape = SubResource("RectangleShape2D_hwaxl")
 position = Vector2(248, 0)
 shape = SubResource("RectangleShape2D_matdo")
 
-[node name="Player" parent="." unique_id=701080228 instance=ExtResource("1_p73au")]
+[node name="Player" parent="." unique_id=701080228 instance=ExtResource("1_cjqw6")]
+dodge_enabled = true
