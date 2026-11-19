@@ -1,7 +1,23 @@
 [gd_scene format=3 uid="uid://bvjqeek4p6tj8"]
 
 [ext_resource type="Script" uid="uid://wm7dogyum0bu" path="res://scripts/fishing_spot.gd" id="1_3hc2x"]
-[ext_resource type="Texture2D" path="res://assets/sprites/fishing_spot_marker.png" id="2_marker"]
+[ext_resource type="Texture2D" uid="uid://boxygvp8ekbeb" path="res://assets/sprites/fishing_spot_marker.png" id="2_marker"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dtw6m"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yey6y"]
 radius = 48.0
@@ -9,7 +25,18 @@ radius = 48.0
 [node name="FishingSpot" type="Area2D" unique_id=2101869587]
 script = ExtResource("1_3hc2x")
 
-[node name="Marker" type="Sprite2D" parent="."]
+[node name="FishingPrompt" type="Label" parent="." unique_id=1143384962]
+offset_left = -32.0
+offset_top = 4.0
+offset_right = 32.0
+offset_bottom = 27.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_dtw6m")
+text = "Press E to fish!"
+vertical_alignment = 1
+
+[node name="Marker" type="Sprite2D" parent="." unique_id=774773643]
 z_index = 1
 texture = ExtResource("2_marker")
 hframes = 6

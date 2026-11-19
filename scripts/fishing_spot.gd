@@ -11,7 +11,10 @@ var player_inside: Player = null
 
 # marker bubble states: far = "!", near = fish, fishing = "...", done = hidden
 enum MarkerState { FAR, NEAR, FISHING, DONE }
-var state: MarkerState = MarkerState.FAR
+var state: MarkerState = MarkerState.FAR:
+	set(new_state):
+		state = new_state
+		fish_prompt.visible = state == MarkerState.NEAR
 
 # sheet frames: 0 "!", 1-2 fish, 3-5 dots
 const FISH_FRAMES := [1, 2]
@@ -23,11 +26,14 @@ const DOT_FRAMES := [3, 4, 5, 5]
 var marker_base_y: float
 var anim_time: float = 0.0
 
+@onready var fish_prompt: Label = $FishingPrompt
+
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	fishing_requested.connect(_start_fishing)
 	marker_base_y = marker.position.y
+	fish_prompt.hide()
 
 func _process(delta: float) -> void:
 	if state == MarkerState.DONE:
