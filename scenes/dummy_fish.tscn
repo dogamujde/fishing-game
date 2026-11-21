@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://ctoy0lwgla6bv"]
+
+[ext_resource type="Script" uid="uid://b3jyvprwesaga" path="res://scripts/dummy_fish.gd" id="1_5mji2"]
+[ext_resource type="Texture2D" uid="uid://6is3wffdvwbx" path="res://icon.svg" id="1_f1cd6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yey6y"]
+size = Vector2(32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yey6y"]
+radius = 24.0
+
+[node name="DummyFish" type="StaticBody2D" unique_id=994859185]
+script = ExtResource("1_5mji2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1992072888]
+modulate = Color(0.90813667, 0.4312966, 0.04057294, 1)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_f1cd6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1272037577]
+shape = SubResource("RectangleShape2D_yey6y")
+
+[node name="TouchArea" type="Area2D" parent="." unique_id=641296121]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TouchArea" unique_id=1967550400]
+shape = SubResource("CircleShape2D_yey6y")
