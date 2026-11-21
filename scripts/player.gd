@@ -21,7 +21,6 @@ var hits_taken: int = 0
 # turned off while fishing so the player cant walk away mid cast
 var can_move: bool = true
 
-<<<<<<< HEAD
 # walk animation: sheet rows are down, up, side (left is side flipped)
 # columns are idle, step a, step b, played as idle, a, idle, b
 const WALK_SEQUENCE := [0, 1, 0, 2]
@@ -30,8 +29,6 @@ const WALK_SEQUENCE := [0, 1, 0, 2]
 var facing_row: int = 0
 var anim_time: float = 0.0
 
-func _physics_process(_delta: float) -> void:
-=======
 # fish attacks should check this and do nothing when its true
 var is_invincible: bool = false
 
@@ -48,11 +45,10 @@ var facing: Vector2 = Vector2.RIGHT
 func _physics_process(delta: float) -> void:
 	cooldown_timer = maxf(cooldown_timer - delta, 0.0)
 	attack_timer = maxf(attack_timer - delta, 0.0)
->>>>>>> origin/doga/fight-arena
 	if not can_move:
 		_end_dodge()
 		velocity = Vector2.ZERO
-		_update_animation(Vector2.ZERO, _delta)
+		_update_animation(Vector2.ZERO, delta)
 		return
 	if is_dodging:
 		dodge_timer -= delta
@@ -75,8 +71,7 @@ func _physics_process(delta: float) -> void:
 	velocity = input_dir * speed
 	# move_and_slide moves the body and stops/slides it along walls
 	move_and_slide()
-<<<<<<< HEAD
-	_update_animation(input_dir, _delta)
+	_update_animation(input_dir, delta)
 
 func _update_animation(dir: Vector2, delta: float) -> void:
 	if dir == Vector2.ZERO:
@@ -96,7 +91,6 @@ func _update_animation(dir: Vector2, delta: float) -> void:
 	sprite.frame = facing_row * 3 + col
 	# small bob up on step frames
 	sprite.offset.y = -1 if col != 0 else 0
-=======
 
 func _start_dodge() -> void:
 	is_dodging = true
@@ -131,4 +125,3 @@ func take_damage() -> void:
 	hits_taken += 1
 	print("player got hit, total hits: ", hits_taken)
 	got_hit.emit(hits_taken)
->>>>>>> origin/doga/fight-arena
