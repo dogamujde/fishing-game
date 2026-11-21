@@ -4,4 +4,6 @@
 
 [resource]
 script = ExtResource("1_67dn3")
+bar_size_bonus = 16.0
+hook_window_mult = 1.4
 metadata/_custom_type_script = "uid://bljvuuvxywnwn"

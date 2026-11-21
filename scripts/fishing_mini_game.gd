@@ -44,6 +44,7 @@ func _ready():
 		return
 		
 	_set_defaults()
+	TextBox.show_tip_once("hook", "Wait for a bite. When the bar flashes and you hear the hook sound, press Space to hook the fish!")
 
 func _unhandled_input(event):
 	if _state == STATE.HOOK:
@@ -109,7 +110,7 @@ func _physics_process(delta: float):
 			if _bite_timer <= 0.0:
 				_prompt_hook()
 		STATE.HOOK:
-			_hook_window -= delta * rod.hook_window_mult
+			_hook_window -= delta
 			if _hook_window <= 0.0:
 				_fail("Too slow")
 		STATE.PLAY:
@@ -161,7 +162,7 @@ func _on_hook():
 	_progress_val = 20.0
 	_time_freeze(0.06 * rod.hit_freeze_mult)
 	_shake(6.0, 0.18)
-
+	TextBox.show_tip_once("reel", "Hold Space to raise the green bar and let go to drop it. Keep the fish inside the green bar until the meter on the right fills up!")
 func _rng_bite_time() -> float:
 	return max(0.25, fish.bite_time_avg + randf_range(-fish.bite_time_variance, fish.bite_time_variance))
 
