@@ -6,7 +6,10 @@ extends Node2D
 
 
 func _ready() -> void:  # runs once when the game starts
-	player.global_position = area.get_spawn_position()  # starts the player
+	if GameState.return_position != Vector2.ZERO:  
+		player.global_position = GameState.return_position
+	else:
+		player.global_position = area.get_spawn_position()  # starts the player
 	var bounds: Rect2 = area.get_bounds()
 	var camera: Camera2D = player.get_node("Camera2D")  # the camera that follows the player
 	camera.limit_left = int(bounds.position.x)  # camera can't scroll past the left edge
@@ -14,23 +17,39 @@ func _ready() -> void:  # runs once when the game starts
 	camera.limit_right = int(bounds.end.x)
 	camera.limit_bottom = int(bounds.end.y)
 	for child in area.get_children():  # go through everything in the area
-		if child is FishingSpot:  
+		if child is FishingSpot:
 			child.fishing_done.connect(_on_fishing_done)  # run our function when the minigame there ends
-	GameState.xp_changed.connect(_on_xp_changed)  
+	GameState.xp_changed.connect(_on_xp_changed)
 	GameState.leveled_up.connect(_on_leveled_up)
-	TextBox.show_message("Welcome! Press E to read the next tip.")  # intro tips, shown one at a time
-	TextBox.show_message("Walk around with WASD or the arrow keys.")  # how to move
-	TextBox.show_message("When you're next to the water, press E to fish.")  # how to fish
-	TextBox.show_message("Every fish you catch gives you XP. Get enough XP and you'll level up!")  # how XP works
+	if not GameState.intro_done:  # the map reloads after every fight, so only show these once
+		GameState.intro_done = true
+		TextBox.show_message("Welcome! Press E to read the next tip.")  # intro tips, shown one at a time
+		TextBox.show_message("Walk around with WASD or the arrow keys.")  # how to move
+		TextBox.show_message("When you're next to the water, press E to fish.")  # how to fish
+		TextBox.show_message("Every fish you catch gives you XP. Get enough XP and you'll level up!")  # how XP works
+	_show_fight_result()
 
 
-func _on_fishing_done(success: bool, fish: FishType, xp: int) -> void:  # runs when the minigame closes
+func _on_fishing_done(success: bool, fish: FishType, _xp: int) -> void:  # runs when the minigame closes
 	if not success:
 		TextBox.show_message("The fish got away...")
 		return
-	# the catch message goes first so a level up message shows right after it
-	TextBox.show_message("You caught a " + fish.fish_name + "! +" + str(xp) + " XP")
-	GameState.add_xp(xp)
+	TextBox.show_message("You reeled in a " + fish.fish_name + "! Now you have to fight it!")
+	await TextBox.closed  # wait until the player closes the message
+	GameState.start_fight(fish, player.global_position)
+
+
+func _show_fight_result() -> void:  # after a fight, says how it went and gives the XP
+	var fish: FishType = GameState.fight_fish
+	if GameState.fight_result == "" or fish == null:  # no fight just happened
+		return
+	if GameState.fight_result == "won":
+		# the win message goes first so a level up message shows right after it
+		TextBox.show_message("You beat the " + fish.fish_name + "! +" + str(fish.xp) + " XP")
+		GameState.add_xp(fish.xp)
+	else:
+		TextBox.show_message("The " + fish.fish_name + " got away...")
+	GameState.fight_result = ""
 
 
 func _on_xp_changed(current_xp: int, needed_xp: int) -> void:  # runs whenever XP changes
