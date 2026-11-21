@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://jsyi6avn6esq"]
+
+[ext_resource type="Texture2D" uid="uid://bf3mmiwhlueir" path="res://assets/fish_minigame/fishicon.png" id="1_3mv6f"]
+[ext_resource type="Script" uid="uid://diyo17uwtaamc" path="res://scripts/fight_fish.gd" id="1_slutt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oivnn"]
+size = Vector2(24, 10)
+
+[node name="FightFish" type="CharacterBody2D" unique_id=53800265]
+position = Vector2(72, 24)
+script = ExtResource("1_slutt")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=888609091]
+scale = Vector2(0.013, 0.013)
+texture = ExtResource("1_3mv6f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1092119575]
+shape = SubResource("RectangleShape2D_oivnn")
