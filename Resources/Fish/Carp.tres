@@ -5,5 +5,6 @@
 [resource]
 script = ExtResource("1_s3blb")
 tint = Color(1, 1, 1, 1)
+difficulty = 0.2
 pattern = 3
 metadata/_custom_type_script = "uid://so1o0wyu7fie"

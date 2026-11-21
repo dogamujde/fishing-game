@@ -109,7 +109,7 @@ func _physics_process(delta: float):
 			if _bite_timer <= 0.0:
 				_prompt_hook()
 		STATE.HOOK:
-			_hook_window -= delta * rod.hook_window_mult
+			_hook_window -= delta
 			if _hook_window <= 0.0:
 				_fail("Too slow")
 		STATE.PLAY:
