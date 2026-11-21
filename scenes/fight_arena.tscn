@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://b8ydnf2kynpxj"]
 
 [ext_resource type="PackedScene" uid="uid://qa3f1bcvhocq" path="res://scenes/player.tscn" id="1_cjqw6"]
+[ext_resource type="Script" uid="uid://bnheyh1sevg3v" path="res://scripts/fight_arena.gd" id="1_vcgy8"]
 [ext_resource type="PackedScene" uid="uid://ctoy0lwgla6bv" path="res://scenes/dummy_fish.tscn" id="2_f0kv7"]
+[ext_resource type="Texture2D" uid="uid://bf3mmiwhlueir" path="res://assets/fish_minigame/fishicon.png" id="4_6v320"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yey6y"]
 size = Vector2(480, 16)
@@ -16,6 +18,7 @@ size = Vector2(16, 302)
 size = Vector2(16, 302)
 
 [node name="FightArena" type="Node2D" unique_id=729152026]
+script = ExtResource("1_vcgy8")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1738521614]
 offset_left = -240.0
@@ -49,3 +52,77 @@ attack_enabled = true
 
 [node name="DummyFish" parent="." unique_id=994859185 instance=ExtResource("2_f0kv7")]
 position = Vector2(80, 0)
+
+[node name="CatchArea" type="Control" parent="." unique_id=1692667253]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BarTrack" type="ColorRect" parent="CatchArea" unique_id=985043031]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -60.0
+offset_right = 15.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.5294118, 0.24705882, 1)
+
+[node name="CatchBar" type="ColorRect" parent="CatchArea" unique_id=2063193769]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = 36.0
+offset_right = 10.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14901961, 1, 0.20784314, 1)
+
+[node name="FishIcon" type="TextureRect" parent="CatchArea" unique_id=1474589817]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.5
+offset_top = -10.0
+offset_right = 12.5
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_6v320")
+expand_mode = 1
+
+[node name="Progress" type="ProgressBar" parent="CatchArea" unique_id=1208021601]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 36.0
+offset_top = 80.0
+offset_right = 156.0
+offset_bottom = 90.0
+rotation = -1.5707964
+show_percentage = false

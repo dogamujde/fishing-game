@@ -1,5 +1,6 @@
 extends CanvasLayer
 ## A Pokemon-style text box at the bottom of the screen for tips and messages
+signal closed  # sent when the player closes the last message
 
 const TEXT_COLOR := Color(0.15, 0.15, 0.25)
 
@@ -45,6 +46,7 @@ func _show_next() -> void:  # shows the next message, or closes the box when non
 	if queue.is_empty():  
 		hide()
 		get_tree().paused = false
+		closed.emit()
 		return
 	label.text = queue.pop_front()  # take the next message off the front of the line
 	show()
