@@ -21,7 +21,6 @@ func _ready() -> void:  # runs once when the game starts
 	TextBox.show_message("Welcome! Press E to read the next tip.")  # intro tips, shown one at a time
 	TextBox.show_message("Walk around with WASD or the arrow keys.")  # how to move
 	TextBox.show_message("When you're next to the water, press E to fish.")  # how to fish
-	TextBox.show_message("When a fish bites, press Space to hook it. Then hold Space to keep the green bar on the fish.")  # how the minigame works
 	TextBox.show_message("Every fish you catch gives you XP. Get enough XP and you'll level up!")  # how XP works
 
 
