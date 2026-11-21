@@ -6,6 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yey6y"]
 size = Vector2(8, 6)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_yey6y"]
+radius = 16.0
+
 [node name="Player" type="CharacterBody2D" unique_id=701080228]
 motion_mode = 1
 script = ExtResource("1_g2els")
@@ -20,3 +23,8 @@ position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_yey6y")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1202923623]
+
+[node name="AttackHitbox" type="Area2D" parent="." unique_id=539507110]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox" unique_id=1188211419]
+shape = SubResource("CircleShape2D_yey6y")
