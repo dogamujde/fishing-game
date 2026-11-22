@@ -30,14 +30,16 @@ func _ready() -> void:  # runs once when the game starts
 	_show_fight_result()
 
 
-func _on_fishing_done(success: bool, fish: FishType, _xp: int) -> void:  # runs when the minigame closes
+func _on_fishing_done(success: bool, fish: FishType, xp: int) -> void:  # runs when the minigame closes
 	if not success:
 		TextBox.show_message("The fish got away...")
 		return
-	TextBox.show_message("You reeled in a " + fish.fish_name + "! Now you have to fight it!")
-	await TextBox.closed  # wait until the player closes the message
+	# the catch message goes first so a level up message shows right after it
+	TextBox.show_message("You reeled in a " + fish.fish_name + "! +" + str(xp) + " XP")
+	GameState.add_xp(xp)
+	TextBox.show_message("Now you have to fight it!")
+	await TextBox.closed  # wait until the player closes the messages
 	GameState.start_fight(fish, player.global_position)
-
 
 func _show_fight_result() -> void:  # after a fight, says how it went and gives the XP
 	var fish: FishType = GameState.fight_fish
