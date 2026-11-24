@@ -9,6 +9,7 @@ var fight_over: bool = false
 @onready var player: Player = $Player
 @onready var fish: FightFish = $FightFish
 @onready var ground: TileMapLayer = $Ground
+@onready var hearts: HBoxContainer = $HUD/Hearts
 
 
 func _ready() -> void:
@@ -25,11 +26,19 @@ func _ready() -> void:
 	fish.setup(GameState.fight_fish if GameState.fight_fish else DEFAULT_FISH, swim_area)
 	fish.defeated.connect(_on_fish_defeated)
 	player.got_hit.connect(_on_player_got_hit)
+	$HUD/Hearts.follow_target = player
+	$HUD/Hearts.update_hearts(MAX_HITS, MAX_HITS)
 	TextBox.show_tip_once("fight", "Fight! Walk up to the fish and press J to attack. Press Space to dash. You can't get hit while dashing.")
 
 
 func _on_player_got_hit(total_hits: int) -> void:
-	if total_hits >= MAX_HITS:
+	if fight_over:
+		return
+		
+	var hits_left := maxi(MAX_HITS - total_hits, 0)
+	$HUD/Hearts.update_hearts(hits_left, MAX_HITS)
+
+	if hits_left == 0:
 		_end_fight(false)
 
 
