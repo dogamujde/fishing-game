@@ -24,11 +24,12 @@ func _ready() -> void:
 	# the fish swims on the sand: in from the rocks, below the 2 water rows, and above the bushes
 	var swim_area := Rect2(bounds.position + Vector2(28, 44), bounds.size - Vector2(56, 76))
 	fish.setup(GameState.fight_fish if GameState.fight_fish else DEFAULT_FISH, swim_area)
+	fish.target = player  # so the fish knows who to charge at
 	fish.defeated.connect(_on_fish_defeated)
 	player.got_hit.connect(_on_player_got_hit)
 	$HUD/Hearts.follow_target = player
 	$HUD/Hearts.update_hearts(MAX_HITS, MAX_HITS)
-	TextBox.show_tip_once("fight", "Fight! Walk up to the fish and press J to attack. Press Space to dash. You can't get hit while dashing.")
+	TextBox.show_tip_once("fight", "Fight! Walk up to the fish and press J to attack. When a ! shows over the fish, it's about to charge, so press Space to dash out of the way.")
 
 
 func _on_player_got_hit(total_hits: int) -> void:
