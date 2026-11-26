@@ -26,14 +26,13 @@ func _on_body_entered(body: Node2D) -> void:
 	if target_scene == "":
 		TextBox.show_message("The gate is open, but the new world isn't ready yet.")
 		return
-	# deferred so the scene doesnt change in the middle of a physics step
-	get_tree().change_scene_to_file.call_deferred(target_scene)
+	GameState.go_to_map(target_scene)  # remembers the new world so fights send you back there
 
 func _on_leveled_up(new_level: int) -> void:
 	_update_label()
 	# only say it once, on the exact level the gate opens
 	if new_level == required_level:
-		TextBox.show_message("You're level " + str(required_level) + " now, the gate at the top of the path is open!")
+		TextBox.show_message.call_deferred("You're level " + str(required_level) + " now, the gate at the top of the path is open!")  # deferred so it shows after the level up message
 
 func _update_label() -> void:
 	# shows what level you need and hides once you have it

@@ -2,10 +2,13 @@ extends Node2D
 ## Runs the game world: puts the player into the current area.
 
 @onready var player: Player = $Player  # the player variable
-@onready var area: Node2D = $StarterArea
+var area: MapArea  # this world's map, found in _ready so every world can use this script
 
 
 func _ready() -> void:  # runs once when the game starts
+	for child in get_children():
+		if child is MapArea:
+			area = child
 	if GameState.return_position != Vector2.ZERO:  
 		player.global_position = GameState.return_position
 	else:
@@ -27,6 +30,8 @@ func _ready() -> void:  # runs once when the game starts
 		TextBox.show_message("Walk around with WASD or the arrow keys.")  # how to move
 		TextBox.show_message("When you're next to the water, press E to fish.")  # how to fish
 		TextBox.show_message("Every fish you catch gives you XP. Get enough XP and you'll level up!")  # how XP works
+	if GameState.current_map != GameState.MAP_SCENE:  # only in the new world
+		TextBox.show_tip_once("new_world", "Welcome to the new world! The fish here are tougher but give more XP. The boss unlocks at level 5.")
 	_show_fight_result()
 
 
