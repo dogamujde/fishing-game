@@ -3,6 +3,7 @@
 [ext_resource type="TileSet" uid="uid://s3cbn5fmkpq5" path="res://assets/tiles/placeholder_tileset.tres" id="1_4t0k6"]
 [ext_resource type="Script" uid="uid://ckusmhy0sq8km" path="res://scripts/area.gd" id="1_06l2f"]
 [ext_resource type="PackedScene" uid="uid://bvjqeek4p6tj8" path="res://scenes/fishing_spot.tscn" id="2_06l2f"]
+[ext_resource type="PackedScene" uid="uid://c12idtn4b7ek7" path="res://scenes/level_gate.tscn" id="4_3hqco"]
 
 [node name="StarterArea" type="Node2D" unique_id=843250833]
 script = ExtResource("1_06l2f")
@@ -28,3 +29,6 @@ position = Vector2(120, 288)
 
 [node name="FishingSpot3" parent="." unique_id=1180541985 instance=ExtResource("2_06l2f")]
 position = Vector2(536, 288)
+
+[node name="LevelGate" parent="." unique_id=1839573498 instance=ExtResource("4_3hqco")]
+position = Vector2(328, 100)

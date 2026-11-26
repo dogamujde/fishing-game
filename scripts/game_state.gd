@@ -41,3 +41,13 @@ func start_fight(fish: FishType, player_position: Vector2) -> void:  # leaves th
 func finish_fight(won: bool) -> void:  # goes back to the map and remembers how the fight went
 	fight_result = "won" if won else "lost"
 	get_tree().change_scene_to_file.call_deferred(MAP_SCENE)
+
+
+# reusable level check, the gate uses 3 and the boss spot can use 5
+func has_level(required: int) -> bool:
+	return level >= required
+
+
+# same locked message everywhere so it reads the same
+func level_lock_message(required: int) -> String:
+	return "You need to be level " + str(required) + " to go here. You are level " + str(level) + "."
