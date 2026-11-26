@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://bnheyh1sevg3v" path="res://scripts/fight_arena.gd" id="1_vcgy8"]
 [ext_resource type="PackedScene" uid="uid://jsyi6avn6esq" path="res://scenes/fight_fish.tscn" id="4_6v320"]
 [ext_resource type="TileSet" uid="uid://s3cbn5fmkpq5" path="res://assets/tiles/placeholder_tileset.tres" id="4_vcgy8"]
+[ext_resource type="Script" uid="uid://cbwffnyngxkfv" path="res://scripts/hearts.gd" id="5_6v320"]
+[ext_resource type="Texture2D" uid="uid://c4bup86d418qg" path="res://assets/sprites/full_heart.png" id="6_7ute4"]
+[ext_resource type="Texture2D" uid="uid://bruls6ge6mcs6" path="res://assets/sprites/empty_heart.png" id="7_4wvh3"]
 
 [node name="FightArena" type="Node2D" unique_id=729152026]
 script = ExtResource("1_vcgy8")
@@ -22,3 +25,21 @@ dodge_enabled = true
 attack_enabled = true
 
 [node name="FightFish" parent="." unique_id=53800265 instance=ExtResource("4_6v320")]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=903563360]
+
+[node name="Hearts" type="HBoxContainer" parent="HUD" unique_id=1834948737]
+process_mode = 3
+anchors_preset = -1
+anchor_right = 0.13000001
+anchor_bottom = 0.093
+offset_left = 10.0
+offset_top = 7.0
+offset_right = -31.600002
+offset_bottom = -9.74
+size_flags_horizontal = 4
+size_flags_vertical = 0
+script = ExtResource("5_6v320")
+full_heart = ExtResource("6_7ute4")
+empty_heart = ExtResource("7_4wvh3")
+metadata/_edit_use_anchors_ = true
