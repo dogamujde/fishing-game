@@ -27,8 +27,7 @@ func _ready() -> void:
 	
 	fish.defeated.connect(_on_fish_defeated)
 	player.got_hit.connect(_on_player_got_hit)
-	TextBox.show_tip_once("fight", "Fight! Walk up to the fish and press J to attack. Press Space to dash. You can't get hit while dashing.")
-
+	TextBox.show_tip_once("fight", "Fight! Walk up to the fish and press J to attack. When a ! shows over the fish, it's about to charge, so press Space to dash out of the way.")
 
 func _on_player_got_hit(total_hits: int) -> void:
 	if total_hits >= MAX_HITS:
