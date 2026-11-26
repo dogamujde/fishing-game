@@ -181,6 +181,9 @@ func _set_catch_bar_visual():
 	catch_bar.global_position = Vector2(bar_track.global_position.x + bar_track.size.x*0.05, y_top)
 
 func _set_defaults():
+	if fish.sprite_texture:
+		fish_icon.texture = fish.sprite_texture
+		fish_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	label_name.text = fish.fish_name
 	bar_track.modulate = fish.tint.lerp(Color.DARK_BLUE, 0.5)
 	_bar_h = BASE_BAR_HEIGHT + rod.bar_size_bonus
@@ -201,7 +204,7 @@ func _set_fish_visual():
 		_fish_pos
 					)
 	fish_icon.global_position.y = y
-	fish_icon.modulate = fish.tint
+	fish_icon.modulate = Color.WHITE if fish.sprite_texture else fish.tint
 
 func _handle_collisions(delta: float):
 	var on_fish := _is_bar_over_fish()

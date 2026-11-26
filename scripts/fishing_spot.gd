@@ -26,6 +26,9 @@ const DOT_FRAMES := [3, 4, 5, 5]
 var marker_base_y: float
 var anim_time: float = 0.0
 
+@export var fish_pool: Array[FishType] = []
+@export var required_level: int = 1
+
 @onready var fish_prompt: Label = $FishingPrompt
 
 func _ready() -> void:
@@ -79,6 +82,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	# can_move check stops spamming E while already fishing
 	# only a spot showing the fish bubble can be fished, not one in use or used up
 	if state == MarkerState.NEAR and player_inside and player_inside.can_move and event.is_action_pressed("interact"):
+		get_viewport().set_input_as_handled()
+		if not GameState.has_level(required_level):
+			TextBox.show_message(GameState.level_lock_message(required_level))
+			return
 		state = MarkerState.FISHING
 		anim_time = 0.0
 		print("fishing requested at ", name)
@@ -88,6 +95,8 @@ func _start_fishing(_spot: FishingSpot) -> void:
 	var player := player_inside   # keep a reference in case they leave the area mid-game
 	player.can_move = false
 	var game := MINIGAME.instantiate()
+	if not fish_pool.is_empty():
+		game.fish = fish_pool.pick_random()
 	add_child(game)
 	game.fishing_finished.connect(_on_fishing_finished.bind(game, player))
 
