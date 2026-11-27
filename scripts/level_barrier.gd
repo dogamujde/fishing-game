@@ -3,8 +3,8 @@ class_name LevelBarrier
 extends Node2D
 ## A fence that blocks a path until the player reaches a level. It only shows up when the game runs.
 
-const TILES := preload("res://assets/tiles/placeholder_tiles.png")
-const FENCE_TILE := Rect2(48, 32, 16, 16)  # where the fence is in the tileset picture
+const TILES := preload("res://assets/tiles/shoreline_tiles.png")
+const FENCE_TILE := Rect2(96, 64, 32, 32)  # where the fence is in the tileset picture
 
 @export var required_level: int = 4
 @export var size_in_tiles := Vector2i(1, 3)  # how many tiles wide and tall the fence is

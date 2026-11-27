@@ -39,7 +39,10 @@ func setup(fish_type: FishType, area: Rect2) -> void:  # the arena calls this wi
 	windup_time = lerpf(0.9, 0.55, fish.difficulty)
 	charge_speed = lerpf(150.0, 230.0, fish.difficulty)
 	attack_timer = attack_every + 1.0  # a little extra time before the first attack
-	sprite.modulate = fish.tint
+	if fish.sprite_texture:
+		sprite.texture = fish.sprite_texture
+		sprite.scale = Vector2.ONE * 1.25
+	sprite.modulate = Color.WHITE if fish.sprite_texture else fish.tint
 	queue_redraw()
 
 
@@ -121,7 +124,7 @@ func take_hit(damage: int) -> void:  # the player's attack calls this
 	queue_redraw()
 	sprite.modulate = Color(1, 0.4, 0.4)  # flash red so you can see the hit landed
 	await get_tree().create_timer(0.1).timeout
-	sprite.modulate = fish.tint
+	sprite.modulate = Color.WHITE if fish.sprite_texture else fish.tint
 	if hp <= 0:
 		defeated.emit()
 		create_tween().tween_property(self, "modulate:a", 0.0, 0.5)  # fade out

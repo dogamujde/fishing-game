@@ -9,42 +9,48 @@ const MINIGAME := preload("res://scenes/FishingMiniGame.tscn")
 # the player standing in this spot, null if nobody is here
 var player_inside: Player = null
 
-# marker bubble states: far = "!", near = fish, fishing = "...", done = hidden
+# The bubble shows a fish from afar, the prompt nearby, and dots while fishing.
 enum MarkerState { FAR, NEAR, FISHING, DONE }
 var state: MarkerState = MarkerState.FAR:
 	set(new_state):
 		state = new_state
 		fish_prompt.visible = state == MarkerState.NEAR
+		marker.visible = state == MarkerState.FAR or state == MarkerState.FISHING
+		marker.frame = DOT_FRAMES[0] if state == MarkerState.FISHING else FISH_FRAMES[0]
 
-# sheet frames: 0 "!", 1-2 fish, 3-5 dots
+# Sheet frames 1–2 are fish and 3–5 are dots.
 const FISH_FRAMES := [1, 2]
 const DOT_FRAMES := [3, 4, 5, 5]
 @export var bob_height: float = 2.0  # pixels the bubble floats up and down
 @export var bob_speed: float = 3.0
 @export var frame_fps: float = 4.0
-@onready var marker: Sprite2D = $Marker
-var marker_base_y: float
+@export var fish_override: FishType
 var anim_time: float = 0.0
 
-@onready var fish_prompt: Label = $FishingPrompt
+@onready var bubble: Node2D = $Bubble
+@onready var marker: Sprite2D = $Bubble/Marker
+@onready var fish_prompt: Label = $Bubble/FishingPrompt
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	fishing_requested.connect(_start_fishing)
-	marker_base_y = marker.position.y
-	fish_prompt.hide()
+	_place_bubble_on_water.call_deferred()
+
+
+func _place_bubble_on_water() -> void:
+	var area := get_parent() as MapArea
+	if area:
+		bubble.global_position = area.get_nearest_water_position(global_position)
 
 func _process(delta: float) -> void:
-	if state == MarkerState.DONE:
+	if not marker.visible:
 		return
 	anim_time += delta
-	marker.position.y = marker_base_y + round(sin(anim_time * bob_speed) * bob_height)
+	marker.position.y = round(sin(anim_time * bob_speed) * bob_height)
 	var step := int(anim_time * frame_fps)
 	match state:
 		MarkerState.FAR:
-			marker.frame = 0
-		MarkerState.NEAR:
 			marker.frame = FISH_FRAMES[step % FISH_FRAMES.size()]
 		MarkerState.FISHING:
 			marker.frame = DOT_FRAMES[step % DOT_FRAMES.size()]
@@ -54,12 +60,10 @@ func _process(delta: float) -> void:
 # call this when the minigame is over, the marker hides and comes back after respawn_time
 func finish_fishing() -> void:
 	state = MarkerState.DONE
-	marker.visible = false
 	# false = timer stops while the game is paused (text box open)
 	await get_tree().create_timer(respawn_time, false).timeout
 	anim_time = 0.0
-	marker.visible = true
-	# if the player is still standing here go straight to the fish bubble
+	# Restore the prompt if the player is still in range.
 	state = MarkerState.NEAR if player_inside else MarkerState.FAR
 
 func _on_body_entered(body: Node2D) -> void:
@@ -87,13 +91,24 @@ func _unhandled_input(event: InputEvent) -> void:
 func _start_fishing(_spot: FishingSpot) -> void:
 	var player := player_inside   # keep a reference in case they leave the area mid-game
 	player.can_move = false
+	var direction := player.global_position.direction_to(global_position)
+	var area := get_parent() as MapArea
+	if area:
+		direction = area.get_fishing_direction(player.global_position, global_position)
+	await player.cast_fishing_rod(direction)
+	player.wait_for_fishing_result()
 	var game := MINIGAME.instantiate()
-	add_child(game)
+	if fish_override:
+		game.fish = fish_override
 	game.fishing_finished.connect(_on_fishing_finished.bind(game, player))
+	add_child(game)
 
 func _on_fishing_finished(success: bool, fish: FishType, value: int, game: Node, player: Player) -> void:
 	print("caught: ", success, " ", fish.fish_name if fish else "")
 	game.queue_free()
+	if success:
+		await player.reel_in_fish()
+	player.stop_fishing_animation()
 	player.can_move = true
 	finish_fishing()  # hides the bubble until the spot respawns
 	fishing_done.emit(success, fish, value)
