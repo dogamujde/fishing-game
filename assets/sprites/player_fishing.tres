@@ -1,0 +1,166 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/player_fishing.png" id="1_atlas"]
+
+[sub_resource type="AtlasTexture" id="front_0"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="front_1"]
+atlas = ExtResource("1_atlas")
+region = Rect2(56, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="front_2"]
+atlas = ExtResource("1_atlas")
+region = Rect2(112, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="front_3"]
+atlas = ExtResource("1_atlas")
+region = Rect2(168, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="front_4"]
+atlas = ExtResource("1_atlas")
+region = Rect2(224, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="front_5"]
+atlas = ExtResource("1_atlas")
+region = Rect2(280, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="front_6"]
+atlas = ExtResource("1_atlas")
+region = Rect2(336, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="front_7"]
+atlas = ExtResource("1_atlas")
+region = Rect2(392, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="front_8"]
+atlas = ExtResource("1_atlas")
+region = Rect2(448, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="front_9"]
+atlas = ExtResource("1_atlas")
+region = Rect2(504, 0, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_0"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_1"]
+atlas = ExtResource("1_atlas")
+region = Rect2(56, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_2"]
+atlas = ExtResource("1_atlas")
+region = Rect2(112, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_3"]
+atlas = ExtResource("1_atlas")
+region = Rect2(168, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_4"]
+atlas = ExtResource("1_atlas")
+region = Rect2(224, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_5"]
+atlas = ExtResource("1_atlas")
+region = Rect2(280, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_6"]
+atlas = ExtResource("1_atlas")
+region = Rect2(336, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_7"]
+atlas = ExtResource("1_atlas")
+region = Rect2(392, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_8"]
+atlas = ExtResource("1_atlas")
+region = Rect2(448, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="back_9"]
+atlas = ExtResource("1_atlas")
+region = Rect2(504, 40, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_0"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 80, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_1"]
+atlas = ExtResource("1_atlas")
+region = Rect2(56, 80, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_2"]
+atlas = ExtResource("1_atlas")
+region = Rect2(112, 80, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_3"]
+atlas = ExtResource("1_atlas")
+region = Rect2(168, 80, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_4"]
+atlas = ExtResource("1_atlas")
+region = Rect2(224, 80, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_5"]
+atlas = ExtResource("1_atlas")
+region = Rect2(280, 80, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_6"]
+atlas = ExtResource("1_atlas")
+region = Rect2(336, 80, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_7"]
+atlas = ExtResource("1_atlas")
+region = Rect2(392, 80, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_8"]
+atlas = ExtResource("1_atlas")
+region = Rect2(448, 80, 56, 40)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="side_9"]
+atlas = ExtResource("1_atlas")
+region = Rect2(504, 80, 56, 40)
+filter_clip = true
+
+[resource]
+animations = [
+{"frames": [{"duration": 13.0, "texture": SubResource("front_0")}, {"duration": 12.0, "texture": SubResource("front_1")}, {"duration": 10.0, "texture": SubResource("front_2")}, {"duration": 14.0, "texture": SubResource("front_3")}], "loop": false, "name": &"front_cast", "speed": 100.0},
+{"frames": [{"duration": 37.0, "texture": SubResource("front_4")}, {"duration": 40.0, "texture": SubResource("front_5")}, {"duration": 22.0, "texture": SubResource("front_6")}], "loop": true, "name": &"front_wait", "speed": 100.0},
+{"frames": [{"duration": 24.0, "texture": SubResource("front_7")}, {"duration": 13.0, "texture": SubResource("front_8")}, {"duration": 14.0, "texture": SubResource("front_9")}], "loop": false, "name": &"front_catch", "speed": 100.0},
+{"frames": [{"duration": 13.0, "texture": SubResource("back_0")}, {"duration": 12.0, "texture": SubResource("back_1")}, {"duration": 10.0, "texture": SubResource("back_2")}, {"duration": 14.0, "texture": SubResource("back_3")}], "loop": false, "name": &"back_cast", "speed": 100.0},
+{"frames": [{"duration": 37.0, "texture": SubResource("back_4")}, {"duration": 40.0, "texture": SubResource("back_5")}, {"duration": 22.0, "texture": SubResource("back_6")}], "loop": true, "name": &"back_wait", "speed": 100.0},
+{"frames": [{"duration": 24.0, "texture": SubResource("back_7")}, {"duration": 13.0, "texture": SubResource("back_8")}, {"duration": 14.0, "texture": SubResource("back_9")}], "loop": false, "name": &"back_catch", "speed": 100.0},
+{"frames": [{"duration": 13.0, "texture": SubResource("side_0")}, {"duration": 12.0, "texture": SubResource("side_1")}, {"duration": 10.0, "texture": SubResource("side_2")}, {"duration": 14.0, "texture": SubResource("side_3")}], "loop": false, "name": &"side_cast", "speed": 100.0},
+{"frames": [{"duration": 37.0, "texture": SubResource("side_4")}, {"duration": 40.0, "texture": SubResource("side_5")}, {"duration": 22.0, "texture": SubResource("side_6")}], "loop": true, "name": &"side_wait", "speed": 100.0},
+{"frames": [{"duration": 24.0, "texture": SubResource("side_7")}, {"duration": 13.0, "texture": SubResource("side_8")}, {"duration": 14.0, "texture": SubResource("side_9")}], "loop": false, "name": &"side_catch", "speed": 100.0}
+]

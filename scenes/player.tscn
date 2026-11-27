@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://qa3f1bcvhocq"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/player.png" id="1_3vyb7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player_detail.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://boolnxij83xsv" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/player_fishing.tres" id="3_fishing"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/player_combat.tres" id="4_combat"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yey6y"]
 size = Vector2(8, 6)
@@ -15,8 +17,19 @@ script = ExtResource("1_g2els")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2105009371]
 texture = ExtResource("1_3vyb7")
+scale = Vector2(0.5, 0.5)
 hframes = 3
 vframes = 3
+
+[node name="FishingSprite" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("3_fishing")
+
+[node name="CombatSprite" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("4_combat")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=102967740]
 position = Vector2(0, 5)
@@ -28,3 +41,5 @@ shape = SubResource("RectangleShape2D_yey6y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox" unique_id=1188211419]
 shape = SubResource("CircleShape2D_yey6y")
+
+[connection signal="animation_finished" from="CombatSprite" to="." method="_on_combat_animation_finished"]

@@ -41,6 +41,42 @@ var attack_timer: float = 0.0
 var facing: Vector2 = Vector2.RIGHT
 
 @onready var attack_hitbox: Area2D = $AttackHitbox
+@onready var fishing_sprite: AnimatedSprite2D = $FishingSprite
+@onready var combat_sprite: AnimatedSprite2D = $CombatSprite
+
+var fishing_direction: String
+
+
+func cast_fishing_rod(direction: Vector2) -> void:
+	if direction != Vector2.ZERO:
+		facing = direction
+		_update_animation(direction, 0.0)
+		_update_animation(Vector2.ZERO, 0.0)
+	fishing_direction = ["front", "back", "side"][facing_row]
+	fishing_sprite.flip_h = facing_row == 2 and sprite.flip_h
+	# Place the sprite around the character center, excluding the extra rod space.
+	fishing_sprite.position = Vector2(0, -1)
+	if facing_row == 2:
+		fishing_sprite.position.x = -6 if fishing_sprite.flip_h else 6
+	sprite.hide()
+	fishing_sprite.show()
+	fishing_sprite.play(fishing_direction + "_cast")
+	await fishing_sprite.animation_finished
+
+
+func wait_for_fishing_result() -> void:
+	fishing_sprite.play(fishing_direction + "_wait")
+
+
+func reel_in_fish() -> void:
+	fishing_sprite.play(fishing_direction + "_catch")
+	await fishing_sprite.animation_finished
+
+
+func stop_fishing_animation() -> void:
+	fishing_sprite.stop()
+	fishing_sprite.hide()
+	sprite.show()
 
 func _physics_process(delta: float) -> void:
 	cooldown_timer = maxf(cooldown_timer - delta, 0.0)
@@ -90,7 +126,7 @@ func _update_animation(dir: Vector2, delta: float) -> void:
 	var col: int = WALK_SEQUENCE[int(anim_time) % WALK_SEQUENCE.size()]
 	sprite.frame = facing_row * 3 + col
 	# small bob up on step frames
-	sprite.offset.y = -1 if col != 0 else 0
+	sprite.offset.y = -2 if col != 0 else 0
 
 func _start_dodge() -> void:
 	is_dodging = true
@@ -101,19 +137,45 @@ func _start_dodge() -> void:
 	cooldown_timer = dodge_time + dodge_cooldown
 	# half see-through so you can tell when you cant get hit
 	modulate.a = 0.5
+	_play_combat_animation("dodge", 0.15 / maxf(dodge_time, 0.001))
 
 func _end_dodge() -> void:
+	var was_dodging := is_dodging
 	is_dodging = false
 	is_invincible = false
 	modulate.a = 1.0
+	if was_dodging:
+		_stop_combat_animation()
 
 func _attack() -> void:
 	attack_timer = attack_cooldown
+	_play_combat_animation("attack")
 	print("attack")
 	# anything with a take_hit function gets hit, so davids fish just needs that function
 	for body in attack_hitbox.get_overlapping_bodies():
 		if body != self and body.has_method("take_hit"):
 			body.take_hit(attack_damage)
+
+
+func _play_combat_animation(action: String, playback_speed: float = 1.0) -> void:
+	_update_animation(facing, 0.0)
+	var direction: String = ["front", "back", "side"][facing_row]
+	combat_sprite.flip_h = sprite.flip_h
+	sprite.hide()
+	combat_sprite.show()
+	combat_sprite.stop()
+	combat_sprite.play(direction + "_" + action, playback_speed)
+
+
+func _on_combat_animation_finished() -> void:
+	if not is_dodging:
+		_stop_combat_animation()
+
+
+func _stop_combat_animation() -> void:
+	combat_sprite.stop()
+	combat_sprite.hide()
+	sprite.show()
 			
 
 # davids fish calls this when it hits the player

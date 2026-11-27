@@ -22,6 +22,8 @@ const BASE_HOOK_WINDOW := 0.6
 const BASE_ESCAPE_DRAIN := 22.0
 const PROGRESS_GAIN := 28.0
 const DURATION := 5.0
+const CHARGE_START_SPEED := 0.55
+const CHARGE_STOP_SPEED := 0.34
 
 enum STATE { CASTING, BITE, HOOK, PLAY, END}
 
@@ -37,6 +39,8 @@ var _fish_pos: float = 0.5
 var _fish_vel: float = 0.0
 var _progress_val: float = 0.0
 var _fish_seed: float
+var _fish_motion := FishMotion.new()
+var _fish_charging := false
 
 func _ready():
 	if not fish or not rod:
@@ -93,14 +97,21 @@ func _update_fish_motion(delta: float):
 			_fish_vel += 0.8 * sin(t3 * 3.3)
 			_fish_vel *= 0.80 - 0.1 * d
 		
+	var previous_position := _fish_pos
 	_fish_pos += _fish_vel * delta * 0.45
 	_fish_pos = clamp(_fish_pos, 0.02, 0.98)
+	var speed := absf(_fish_pos - previous_position) / delta
+	var threshold := CHARGE_STOP_SPEED if _fish_charging else CHARGE_START_SPEED
+	_fish_charging = speed >= threshold
 	_set_fish_visual()
 	
 
 func _physics_process(delta: float):
 	_elapsed += delta
 	_duration += delta
+	var motion_texture := _fish_motion.sample(delta, _state == STATE.PLAY and _fish_charging)
+	if motion_texture and fish_icon.texture != motion_texture:
+		fish_icon.texture = motion_texture
 	
 	match _state:
 		STATE.CASTING:
@@ -181,6 +192,11 @@ func _set_catch_bar_visual():
 	catch_bar.global_position = Vector2(bar_track.global_position.x + bar_track.size.x*0.05, y_top)
 
 func _set_defaults():
+	_fish_motion.frames = fish.motion_frames
+	var idle_texture := _fish_motion.sample(0.0, false)
+	if idle_texture or fish.sprite_texture:
+		fish_icon.texture = idle_texture if idle_texture else fish.sprite_texture
+		fish_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	label_name.text = fish.fish_name
 	bar_track.modulate = fish.tint.lerp(Color.DARK_BLUE, 0.5)
 	_bar_h = BASE_BAR_HEIGHT + rod.bar_size_bonus
@@ -201,7 +217,7 @@ func _set_fish_visual():
 		_fish_pos
 					)
 	fish_icon.global_position.y = y
-	fish_icon.modulate = fish.tint
+	fish_icon.modulate = Color.WHITE if fish.motion_frames or fish.sprite_texture else fish.tint
 
 func _handle_collisions(delta: float):
 	var on_fish := _is_bar_over_fish()

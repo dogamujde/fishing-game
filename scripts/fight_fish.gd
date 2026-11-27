@@ -17,6 +17,7 @@ var swim_target: Vector2
 var swim_timer: float = 0.0
 var hurt_timer: float = 0.0
 var anim_time: float = 0.0
+var motion := FishMotion.new()
 
 var state: State = State.SWIM
 var state_time: float = 0.0  # how long the fish has been in its current state
@@ -39,7 +40,12 @@ func setup(fish_type: FishType, area: Rect2) -> void:  # the arena calls this wi
 	windup_time = lerpf(0.9, 0.55, fish.difficulty)
 	charge_speed = lerpf(150.0, 230.0, fish.difficulty)
 	attack_timer = attack_every + 1.0  # a little extra time before the first attack
-	sprite.modulate = fish.tint
+	motion.frames = fish.motion_frames
+	var idle_texture := motion.sample(0.0, false)
+	if idle_texture or fish.sprite_texture:
+		sprite.texture = idle_texture if idle_texture else fish.sprite_texture
+		sprite.scale = Vector2.ONE * 1.25
+	sprite.modulate = Color.WHITE if idle_texture or fish.sprite_texture else fish.tint
 	queue_redraw()
 
 
@@ -52,6 +58,9 @@ func _physics_process(delta: float) -> void:
 	sprite.position.y = round(sin(anim_time * 8.0))  # small wiggle so it looks alive
 	if hp <= 0:
 		return
+	var motion_texture := motion.sample(delta, state == State.CHARGE)
+	if motion_texture and sprite.texture != motion_texture:
+		sprite.texture = motion_texture
 	if hurt_timer > 0.0:  # stop for a moment after getting hit
 		hurt_timer -= delta
 		return
@@ -121,7 +130,7 @@ func take_hit(damage: int) -> void:  # the player's attack calls this
 	queue_redraw()
 	sprite.modulate = Color(1, 0.4, 0.4)  # flash red so you can see the hit landed
 	await get_tree().create_timer(0.1).timeout
-	sprite.modulate = fish.tint
+	sprite.modulate = Color.WHITE if fish.motion_frames or fish.sprite_texture else fish.tint
 	if hp <= 0:
 		defeated.emit()
 		create_tween().tween_property(self, "modulate:a", 0.0, 0.5)  # fade out

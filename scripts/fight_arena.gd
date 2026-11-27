@@ -3,6 +3,7 @@ extends Node2D
 
 const MAX_HITS: int = 3  # hits the player can take before the fish gets away
 const DEFAULT_FISH := preload("res://Resources/Fish/Carp.tres")  # used when you run this scene by itself
+const BATTLE_RESULT := preload("res://scripts/battle_result.gd")
 
 var fight_over: bool = false
 
@@ -23,13 +24,35 @@ func _ready() -> void:
 	camera.limit_bottom = int(bounds.end.y)
 	# the fish swims on the sand: in from the rocks, below the 2 water rows, and above the bushes
 	var swim_area := Rect2(bounds.position + Vector2(28, 44), bounds.size - Vector2(56, 76))
-	fish.setup(GameState.fight_fish if GameState.fight_fish else DEFAULT_FISH, swim_area)
+	var fish_type := GameState.fight_fish if GameState.fight_fish else DEFAULT_FISH
+	fish.setup(fish_type, swim_area)
 	fish.target = player  # so the fish knows who to charge at
 	fish.defeated.connect(_on_fish_defeated)
 	player.got_hit.connect(_on_player_got_hit)
 	$HUD/Hearts.follow_target = player
 	$HUD/Hearts.update_hearts(MAX_HITS, MAX_HITS)
+	if fish_type.is_boss:
+		_play_boss_intro(camera)
 	TextBox.show_tip_once("fight", "Fight! Walk up to the fish and press J to attack. When a ! shows over the fish, it's about to charge, so press Space to dash out of the way.")
+
+
+func _play_boss_intro(camera: Camera2D) -> void:
+	ground.modulate = Color("#b6addb")
+	$Obstacles.modulate = Color("#c3acdb")
+	$HUD.hide()
+	player.can_move = false
+	fish.set_physics_process(false)
+	camera.zoom = Vector2.ONE * 1.35
+	camera.global_position = fish.global_position
+	var intro := create_tween().set_parallel().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	intro.tween_property(camera, "position", Vector2.ZERO, 0.65).set_delay(0.3)
+	intro.tween_property(camera, "zoom", Vector2.ONE, 0.65).set_delay(0.3)
+	await intro.finished
+	if fight_over:
+		return
+	$HUD.show()
+	player.can_move = true
+	fish.set_physics_process(true)
 
 
 func _on_player_got_hit(total_hits: int) -> void:
@@ -51,5 +74,17 @@ func _end_fight(won: bool) -> void:
 	if fight_over:  # only end once, even if more hits come in
 		return
 	fight_over = true
-	await get_tree().create_timer(0.6).timeout  # short pause so you can see the last hit
-	GameState.finish_fight(won)
+	player.can_move = false
+	player.set_physics_process(false)
+	fish.set_physics_process(false)
+	await get_tree().create_timer(0.6, false).timeout
+	$HUD.hide()
+	var fight_xp: int = fish.fish.xp if won else 0
+	var layer := CanvasLayer.new()
+	layer.layer = 5
+	add_child(layer)
+	var result := BATTLE_RESULT.new()
+	result.name = "BattleResult"
+	result.setup(won, fish.fish, GameState.catch_xp, fight_xp)
+	result.confirmed.connect(GameState.finish_fight.bind(fight_xp), CONNECT_ONE_SHOT)
+	layer.add_child(result)
