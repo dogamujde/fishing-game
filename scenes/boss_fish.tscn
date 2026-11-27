@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cwgqh4ry7t87u"]
+
+[ext_resource type="Script" uid="uid://d3op4gjuky53b" path="res://scripts/boss_fish.gd" id="1_qnlv4"]
+[ext_resource type="Texture2D" uid="uid://bf3mmiwhlueir" path="res://assets/fish_minigame/fishicon.png" id="2_w01hu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oivnn"]
+size = Vector2(24, 10)
+
+[node name="BossFish" type="CharacterBody2D" unique_id=53800265]
+position = Vector2(72, 24)
+script = ExtResource("1_qnlv4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=888609091]
+scale = Vector2(0.013, 0.013)
+texture = ExtResource("2_w01hu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1092119575]
+shape = SubResource("RectangleShape2D_oivnn")
