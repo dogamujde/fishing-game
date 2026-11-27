@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d1ec2lc77f2rl"]
+
+[ext_resource type="Script" uid="uid://cw4meb3p1hyjy" path="res://scripts/main.gd" id="1_ccw01"]
+[ext_resource type="PackedScene" uid="uid://qa3f1bcvhocq" path="res://scenes/player.tscn" id="3_m1yga"]
+[ext_resource type="PackedScene" uid="uid://d33xcinbjbxd5" path="res://scenes/areas/new_world_area.tscn" id="4_ccw01"]
+[ext_resource type="Script" uid="uid://bwl67ie7yu510" path="res://scripts/xp_bar.gd" id="4_mwihd"]
+
+[node name="Main" type="Node2D" unique_id=1410739827]
+script = ExtResource("1_ccw01")
+
+[node name="NewWorldArea" parent="." unique_id=843250833 instance=ExtResource("4_ccw01")]
+
+[node name="Player" parent="." unique_id=701080228 instance=ExtResource("3_m1yga")]
+position = Vector2(328, 0)
+
+[node name="XpBar" type="CanvasLayer" parent="." unique_id=1515243558]
+script = ExtResource("4_mwihd")
