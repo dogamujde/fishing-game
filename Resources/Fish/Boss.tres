@@ -3,8 +3,11 @@
 [ext_resource type="Script" path="res://scripts/FishType.gd" id="1_fish"]
 [ext_resource type="Texture2D" path="res://assets/sprites/boss_fish.png" id="2_sprite"]
 
+[ext_resource type="SpriteFrames" path="res://assets/sprites/boss_motion.tres" id="motion"]
+
 [resource]
 script = ExtResource("1_fish")
+motion_frames = ExtResource("motion")
 fish_name = "Boss"
 sprite_texture = ExtResource("2_sprite")
 is_boss = true

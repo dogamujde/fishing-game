@@ -1,0 +1,58 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/carp_motion.png" id="1_atlas"]
+
+[sub_resource type="AtlasTexture" id="frame_0"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 0, 37, 22)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame_1"]
+atlas = ExtResource("1_atlas")
+region = Rect2(37, 0, 37, 22)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame_2"]
+atlas = ExtResource("1_atlas")
+region = Rect2(74, 0, 37, 22)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame_3"]
+atlas = ExtResource("1_atlas")
+region = Rect2(111, 0, 37, 22)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame_4"]
+atlas = ExtResource("1_atlas")
+region = Rect2(148, 0, 37, 22)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frame_5"]
+atlas = ExtResource("1_atlas")
+region = Rect2(185, 0, 37, 22)
+filter_clip = true
+
+[resource]
+animations = [
+{
+"frames": [
+{"duration": 1.0, "texture": SubResource("frame_0")},
+{"duration": 1.0, "texture": SubResource("frame_1")},
+{"duration": 1.0, "texture": SubResource("frame_0")},
+{"duration": 1.0, "texture": SubResource("frame_2")}
+],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+},
+{
+"frames": [
+{"duration": 1.0, "texture": SubResource("frame_3")},
+{"duration": 1.0, "texture": SubResource("frame_4")},
+{"duration": 1.0, "texture": SubResource("frame_5")}
+],
+"loop": true,
+"name": &"charge",
+"speed": 17.0
+}
+]

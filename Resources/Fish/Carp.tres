@@ -2,8 +2,11 @@
 
 [ext_resource type="Script" uid="uid://so1o0wyu7fie" path="res://scripts/FishType.gd" id="1_s3blb"]
 
+[ext_resource type="SpriteFrames" path="res://assets/sprites/carp_motion.tres" id="motion"]
+
 [resource]
 script = ExtResource("1_s3blb")
+motion_frames = ExtResource("motion")
 tint = Color(1, 1, 1, 1)
 difficulty = 0.2
 xp = 50

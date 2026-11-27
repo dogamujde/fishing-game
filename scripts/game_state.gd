@@ -12,9 +12,10 @@ var xp: int = 0  # XP earned toward the next level
 
 var intro_done: bool = false  # so the intro tips only show the first time the map loads
 var fight_fish: FishType = null
-var return_position: Vector2 = Vector2.ZERO  # where the player was on the map before the fight
+var return_position: Variant = null
 var current_map: String = MAP_SCENE  # the world the player is in, so fights send you back to it
-var fight_result: String = "" 
+var catch_xp: int = 0
+var _pending_fight_xp: int = 0
 
 
 func get_xp_needed() -> int:  # how much XP the current level needs
@@ -32,21 +33,29 @@ func add_xp(amount: int) -> void:  # gives the player XP, like after catching a 
 	xp_changed.emit(xp, get_xp_needed())
 
 
-func start_fight(fish: FishType, player_position: Vector2) -> void:  # leaves the map to fight this fish
+func start_fight(fish: FishType, player_position: Vector2, earned_catch_xp: int = 0) -> void:
 	fight_fish = fish
 	return_position = player_position
-	fight_result = ""
+	catch_xp = earned_catch_xp
+	_pending_fight_xp = 0
 	get_tree().change_scene_to_file.call_deferred(FIGHT_SCENE)  # deferred so it happens after this frame
 
 
-func finish_fight(won: bool) -> void:  # goes back to the map and remembers how the fight went
-	fight_result = "won" if won else "lost"
+func finish_fight(fight_xp: int) -> void:
+	_pending_fight_xp = fight_xp
+	catch_xp = 0
 	get_tree().change_scene_to_file.call_deferred(current_map)
+
+
+func take_fight_reward() -> int:
+	var reward := _pending_fight_xp
+	_pending_fight_xp = 0
+	return reward
 
 
 func go_to_map(scene_path: String) -> void:  # moves the player to another world, like through the gate
 	current_map = scene_path
-	return_position = Vector2.ZERO  # start at the new world's spawn point
+	return_position = null
 	get_tree().change_scene_to_file.call_deferred(scene_path)
 
 

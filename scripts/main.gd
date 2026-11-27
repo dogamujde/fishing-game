@@ -11,8 +11,9 @@ func _ready() -> void:  # runs once when the game starts
 	for child in get_children():
 		if child is MapArea:
 			area = child
-	if GameState.return_position != Vector2.ZERO:  
+	if GameState.return_position != null:
 		player.global_position = GameState.return_position
+		GameState.return_position = null
 	else:
 		player.global_position = area.get_spawn_position()  # starts the player
 	var bounds: Rect2 = area.get_bounds()
@@ -37,7 +38,7 @@ func _ready() -> void:  # runs once when the game starts
 		TextBox.show_message("Every fish you catch gives you XP. Get enough XP and you'll level up!")  # how XP works
 	if GameState.current_map != GameState.MAP_SCENE:  # only in the new world
 		TextBox.show_tip_once("new_world", "Welcome to the new world! The fish here are tougher but give more XP. The boss unlocks at level 5.")
-	_show_fight_result()
+	GameState.add_xp(GameState.take_fight_reward())
 
 
 func _on_fishing_done(success: bool, fish: FishType, xp: int) -> void:  # runs when the minigame closes
@@ -49,19 +50,7 @@ func _on_fishing_done(success: bool, fish: FishType, xp: int) -> void:  # runs w
 	GameState.add_xp(xp)
 	TextBox.show_message("Now you have to fight it!")
 	await TextBox.closed  # wait until the player closes the messages
-	GameState.start_fight(fish, player.global_position)
-
-func _show_fight_result() -> void:  # after a fight, says how it went and gives the XP
-	var fish: FishType = GameState.fight_fish
-	if GameState.fight_result == "" or fish == null:  # no fight just happened
-		return
-	if GameState.fight_result == "won":
-		# the win message goes first so a level up message shows right after it
-		TextBox.show_message("You beat the " + fish.fish_name + "! +" + str(fish.xp) + " XP")
-		GameState.add_xp(fish.xp)
-	else:
-		TextBox.show_message("The " + fish.fish_name + " got away...")
-	GameState.fight_result = ""
+	GameState.start_fight(fish, player.global_position, xp)
 
 
 func _on_xp_changed(current_xp: int, needed_xp: int) -> void:  # runs whenever XP changes

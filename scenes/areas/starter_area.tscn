@@ -32,9 +32,11 @@ position = Vector2(328, 344)
 
 [node name="FishingSpot2" parent="." unique_id=472874168 instance=ExtResource("2_06l2f")]
 position = Vector2(120, 288)
+approach_offset = Vector2(0, -8)
 
 [node name="FishingSpot3" parent="." unique_id=1180541985 instance=ExtResource("2_06l2f")]
 position = Vector2(536, 288)
+approach_offset = Vector2(0, -8)
 
 [node name="LevelGate" parent="." unique_id=1839573498 instance=ExtResource("4_3hqco")]
 position = Vector2(328, 100)

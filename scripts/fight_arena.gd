@@ -3,6 +3,7 @@ extends Node2D
 
 const MAX_HITS: int = 3  # hits the player can take before the fish gets away
 const DEFAULT_FISH := preload("res://Resources/Fish/Carp.tres")  # used when you run this scene by itself
+const BATTLE_RESULT := preload("res://scripts/battle_result.gd")
 
 var fight_over: bool = false
 
@@ -47,6 +48,8 @@ func _play_boss_intro(camera: Camera2D) -> void:
 	intro.tween_property(camera, "position", Vector2.ZERO, 0.65).set_delay(0.3)
 	intro.tween_property(camera, "zoom", Vector2.ONE, 0.65).set_delay(0.3)
 	await intro.finished
+	if fight_over:
+		return
 	$HUD.show()
 	player.can_move = true
 	fish.set_physics_process(true)
@@ -71,5 +74,17 @@ func _end_fight(won: bool) -> void:
 	if fight_over:  # only end once, even if more hits come in
 		return
 	fight_over = true
-	await get_tree().create_timer(0.6).timeout  # short pause so you can see the last hit
-	GameState.finish_fight(won)
+	player.can_move = false
+	player.set_physics_process(false)
+	fish.set_physics_process(false)
+	await get_tree().create_timer(0.6, false).timeout
+	$HUD.hide()
+	var fight_xp: int = fish.fish.xp if won else 0
+	var layer := CanvasLayer.new()
+	layer.layer = 5
+	add_child(layer)
+	var result := BATTLE_RESULT.new()
+	result.name = "BattleResult"
+	result.setup(won, fish.fish, GameState.catch_xp, fight_xp)
+	result.confirmed.connect(GameState.finish_fight.bind(fight_xp), CONNECT_ONE_SHOT)
+	layer.add_child(result)

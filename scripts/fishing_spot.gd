@@ -26,6 +26,8 @@ const DOT_FRAMES := [3, 4, 5, 5]
 @export var frame_fps: float = 4.0
 @export var fish_override: FishType
 @export var required_level: int = 1
+## Offset from the spot to the bank or pier where the player stands.
+@export var approach_offset: Vector2 = Vector2.ZERO
 var anim_time: float = 0.0
 
 @onready var bubble: Node2D = $Bubble
@@ -33,6 +35,7 @@ var anim_time: float = 0.0
 @onready var fish_prompt: Label = $Bubble/FishingPrompt
 
 func _ready() -> void:
+	$CollisionShape2D.position = approach_offset
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	fishing_requested.connect(_start_fishing)

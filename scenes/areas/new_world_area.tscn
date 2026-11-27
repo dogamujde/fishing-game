@@ -46,20 +46,24 @@ position = Vector2(-24, 230)
 
 [node name="FishingSpot1" parent="." unique_id=2101869587 instance=ExtResource("3_1hm6s")]
 position = Vector2(-25, 70)
+approach_offset = Vector2(1, 34)
 fish_override = ExtResource("bass_fish")
 
 [node name="FishingSpot2" parent="." unique_id=2122245338 instance=ExtResource("3_1hm6s")]
 position = Vector2(251, 88)
+approach_offset = Vector2(-3, 32)
 fish_override = ExtResource("bass_fish")
 required_level = 4
 
 [node name="FishingSpot3" parent="." unique_id=779600205 instance=ExtResource("3_1hm6s")]
 position = Vector2(344, 64)
+approach_offset = Vector2(0, 24)
 fish_override = ExtResource("pike_fish")
 required_level = 4
 
 [node name="BossSpot" parent="." unique_id=2128488973 instance=ExtResource("3_1hm6s")]
 position = Vector2(616, -5)
+approach_offset = Vector2(0, 29)
 fish_override = ExtResource("boss_fish")
 required_level = 5
 
