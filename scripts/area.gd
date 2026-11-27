@@ -5,6 +5,7 @@ extends Node2D
 
 @onready var ground: TileMapLayer = $Ground  # the layer that covers the whole map
 @onready var water: TileMapLayer = $Water
+@onready var obstacles: TileMapLayer = $Obstacles
 @onready var spawn_point: Marker2D = $SpawnPoint  # where the player starts in this area
 
 
@@ -56,6 +57,8 @@ func get_nearest_water_position(origin: Vector2) -> Vector2:
 			if tile == null or not tile.get_custom_data("is_water"):
 				continue
 			var position_in_world := layer.to_global(layer.map_to_local(cell))
+			if _is_covered_by_obstacle(position_in_world):
+				continue
 			var distance_squared := origin.distance_squared_to(position_in_world)
 			if distance_squared < closest_distance_squared:
 				closest_position = position_in_world
@@ -65,4 +68,9 @@ func get_nearest_water_position(origin: Vector2) -> Vector2:
 
 func _is_water_at(layer: TileMapLayer, position_in_world: Vector2) -> bool:
 	var tile := layer.get_cell_tile_data(layer.local_to_map(layer.to_local(position_in_world)))
-	return tile != null and tile.get_custom_data("is_water")
+	return tile != null and tile.get_custom_data("is_water") and not _is_covered_by_obstacle(position_in_world)
+
+
+func _is_covered_by_obstacle(position_in_world: Vector2) -> bool:
+	var tile := obstacles.get_cell_tile_data(obstacles.local_to_map(obstacles.to_local(position_in_world)))
+	return tile != null and tile.get_collision_polygons_count(0) > 0

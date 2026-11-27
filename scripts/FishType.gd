@@ -3,6 +3,7 @@ class_name FishType
 
 @export var fish_name: String = "Carp"
 @export var sprite_texture: Texture2D
+@export var is_boss: bool = false
 @export var tint: Color = Color.SKY_BLUE
 
 @export var allowed_areas: Array[String] = ["first"]

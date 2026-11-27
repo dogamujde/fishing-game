@@ -25,6 +25,7 @@ const DOT_FRAMES := [3, 4, 5, 5]
 @export var bob_speed: float = 3.0
 @export var frame_fps: float = 4.0
 @export var fish_override: FishType
+@export var required_level: int = 1
 var anim_time: float = 0.0
 
 @onready var bubble: Node2D = $Bubble
@@ -83,6 +84,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	# can_move check stops spamming E while already fishing
 	# only a spot showing the fish bubble can be fished, not one in use or used up
 	if state == MarkerState.NEAR and player_inside and player_inside.can_move and event.is_action_pressed("interact"):
+		get_viewport().set_input_as_handled()
+		if not GameState.has_level(required_level):
+			TextBox.show_message(GameState.level_lock_message(required_level))
+			return
 		state = MarkerState.FISHING
 		anim_time = 0.0
 		print("fishing requested at ", name)

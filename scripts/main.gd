@@ -1,6 +1,8 @@
 extends Node2D
 ## Runs the game world: puts the player into the current area.
 
+const MINIMAP := preload("res://scripts/minimap.gd")
+
 @onready var player: Player = $Player  # the player variable
 var area: MapArea  # this world's map, found in _ready so every world can use this script
 
@@ -19,6 +21,9 @@ func _ready() -> void:  # runs once when the game starts
 	camera.limit_top = int(bounds.position.y)
 	camera.limit_right = int(bounds.end.x)
 	camera.limit_bottom = int(bounds.end.y)
+	var minimap := MINIMAP.new()
+	$XpBar.add_child(minimap)
+	minimap.setup(area, player)
 	for child in area.get_children():  # go through everything in the area
 		if child is FishingSpot:
 			child.fishing_done.connect(_on_fishing_done)  # run our function when the minigame there ends

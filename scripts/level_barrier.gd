@@ -45,7 +45,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 
 func _on_leveled_up(new_level: int) -> void:
-	if new_level == required_level:
+	if new_level >= required_level and not is_queued_for_deletion():
 		# deferred so it shows after the level up message
 		TextBox.show_message.call_deferred("You're level " + str(required_level) + " now, a new part of the map is open!")
 		queue_free()

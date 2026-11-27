@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FishType" format=3]
+
+[ext_resource type="Script" path="res://scripts/FishType.gd" id="1_fish"]
+[ext_resource type="Texture2D" path="res://assets/sprites/boss_fish.png" id="2_sprite"]
+
+[resource]
+script = ExtResource("1_fish")
+fish_name = "Boss"
+sprite_texture = ExtResource("2_sprite")
+is_boss = true
+tint = Color(0.73, 0.52, 0.86, 1)
+allowed_areas = Array[String](["new_world"])
+difficulty = 0.9
+pattern = 3
+xp = 200
