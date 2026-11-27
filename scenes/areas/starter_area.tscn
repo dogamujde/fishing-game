@@ -32,3 +32,4 @@ position = Vector2(536, 288)
 
 [node name="LevelGate" parent="." unique_id=1839573498 instance=ExtResource("4_3hqco")]
 position = Vector2(328, 100)
+target_scene = "uid://d1ec2lc77f2rl"

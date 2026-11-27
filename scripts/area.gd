@@ -1,3 +1,5 @@
+class_name MapArea
+
 extends Node2D
 ## A map area: knows where the player starts and how big the map is.
 
