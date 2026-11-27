@@ -4,6 +4,7 @@
 [ext_resource type="Resource" uid="uid://crdoovg6uoqqj" path="res://Resources/Fish/Carp.tres" id="2_c1ico"]
 [ext_resource type="Texture2D" uid="uid://bf3mmiwhlueir" path="res://assets/fish_minigame/fishicon.png" id="2_d85yt"]
 [ext_resource type="Resource" uid="uid://bbwhv1rsaygy" path="res://Resources/Rod/Bamboo Pole.tres" id="3_n0roo"]
+[ext_resource type="Texture2D" uid="uid://bjpodgp0jla68" path="res://assets/fish_minigame/treasure.png" id="5_lwm1m"]
 [ext_resource type="AudioStream" uid="uid://bxqpt7dfxkk1g" path="res://assets/fish_minigame/hook.wav" id="5_n0roo"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j1a6q"]
@@ -92,6 +93,24 @@ offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_d85yt")
+expand_mode = 1
+
+[node name="TreasureIcon" type="TextureRect" parent="Control/CatchArea" unique_id=1387625895]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -10.0
+offset_right = 15.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_lwm1m")
 expand_mode = 1
 
 [node name="Progress" type="ProgressBar" parent="Control/CatchArea" unique_id=1729727437]

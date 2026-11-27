@@ -10,6 +10,7 @@ signal fishing_finished(success: bool, fish: FishType, value: int)
 @onready var bar_track: Control = %BarTrack
 @onready var catch_bar: ColorRect = %CatchBar
 @onready var fish_icon: TextureRect = %FishIcon
+@onready var treasure_icon: TextureRect = %TreasureIcon
 @onready var progress: ProgressBar = %Progress
 @onready var label_name: Label = %LabelFishName
 @onready var sfx_hook: AudioStreamPlayer = %SFXH
@@ -21,6 +22,9 @@ const BASE_BAR_HEIGHT := 20.0
 const BASE_HOOK_WINDOW := 0.6
 const BASE_ESCAPE_DRAIN := 22.0
 const PROGRESS_GAIN := 28.0
+const TREASURE_HOLD_TIME := 1.5  
+const TREASURE_DECAY := 0.75      
+const TREASURE_XP_MULT := 1.5     
 const DURATION := 5.0
 
 enum STATE { CASTING, BITE, HOOK, PLAY, END}
@@ -36,6 +40,9 @@ var _bar_vel: float = 0.0
 var _fish_pos: float = 0.5
 var _fish_vel: float = 0.0
 var _progress_val: float = 0.0
+var _treasure_active: bool = false
+var _treasure_val: float = 0.0
+var _treasure_collected: bool = false
 var _fish_seed: float
 
 func _ready():
@@ -154,15 +161,22 @@ func _success():
 	_shake(10.0, 0.25)
 	_punch_ui(root_ui, 1.12, 0.18)
 	
+	var xp := fish.xp
+	if _treasure_collected:
+		xp = int(round(fish.xp * TREASURE_XP_MULT))
+	
 	await get_tree().create_timer(0.25).timeout
-	emit_signal("fishing_finished", true, fish, fish.xp)
+	emit_signal("fishing_finished", true, fish, xp)
 	
 func _on_hook():
 	_state = STATE.PLAY
+	if _treasure_active:
+		_spawn_treasure()
 	_progress_val = 20.0
 	_time_freeze(0.06 * rod.hit_freeze_mult)
 	_shake(6.0, 0.18)
 	TextBox.show_tip_once("reel", "Hold Space to raise the green bar and let go to drop it. Keep the fish inside the green bar until the meter on the right fills up!")
+	
 func _rng_bite_time() -> float:
 	return max(0.25, fish.bite_time_avg + randf_range(-fish.bite_time_variance, fish.bite_time_variance))
 
@@ -192,6 +206,10 @@ func _set_defaults():
 	_set_fish_visual()
 	
 	progress.value = 0
+	treasure_icon.visible = false
+	_treasure_active = randf() < fish.treasure_chance * rod.treasure_mult
+	_treasure_val = 0.0
+	_treasure_collected = false
 	_punch_ui(root_ui, 1.03, 0.12)
 
 func _set_fish_visual():
@@ -213,7 +231,26 @@ func _handle_collisions(delta: float):
 	_progress_val = max(0, _progress_val)
 	if _progress_val > 0:
 		_duration = 0
+	
+	if _treasure_active and treasure_icon.visible:
+		if _is_bar_over_treasure():
+			_treasure_val += delta
+			if _treasure_val >= TREASURE_HOLD_TIME:
+				_treasure_active = false
+				_treasure_collected = true
+				treasure_icon.hide()
+				_punch_ui(root_ui, 1.06, 0.1)
+		else:
+			_treasure_val = max(0.0, _treasure_val - TREASURE_DECAY * delta)
+		treasure_icon.modulate = Color.WHITE.lerp(Color.GOLD, _treasure_val / TREASURE_HOLD_TIME)
 
+func _spawn_treasure():
+	var max_offset := bar_track.size.y - treasure_icon.size.y
+	treasure_icon.global_position = Vector2(
+		bar_track.global_position.x + (bar_track.size.x - treasure_icon.size.x) * 0.5,
+		bar_track.global_position.y + randf_range(0.0, max_offset)
+	)
+	treasure_icon.show()
 func _update_progress_ui():
 	progress.value = clamp(_progress_val, 0.0, 100.0)
 
@@ -222,6 +259,14 @@ func _is_bar_over_fish() -> bool:
 	
 	var bar_rect := Rect2(catch_bar.global_position, catch_bar.size)
 	return bar_rect.intersects(fish_rect)
+
+func _is_bar_over_treasure() -> bool:
+	if not treasure_icon.visible:
+		return false
+	var bar_rect := Rect2(catch_bar.global_position, catch_bar.size)
+	var treasure_rect := Rect2(treasure_icon.global_position, treasure_icon.size)
+	return bar_rect.intersects(treasure_rect)
+
 
 func _punch_ui(node: Node, scale_to: float, time:float):
 	var t := create_tween()

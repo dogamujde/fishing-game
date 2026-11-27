@@ -11,6 +11,7 @@ class_name RodType
 @export_range(0.5, 1.5, 0.01) var bite_rate_mult: float = 1.0
 @export_range(0.6, 1.4, 0.01) var hook_window_mult: float = 1.0
 @export_range(0.7, 1.4, 0.01) var escape_drain_mult: float = 1.0
+@export_range(0.8, 1.5, 0.01) var treasure_mult: float = 1.0
 
 @export_range(0.8, 1.4, 0.01) var hit_freeze_mult: float = 1.0
 @export var allow_tackle_slot: bool = false
